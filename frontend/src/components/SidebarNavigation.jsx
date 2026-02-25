@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const SidebarNavigation = () => {
+const SidebarNavigation = ({ closeSidebar }) => {
   const [courses, setCourses] = useState([]);
   const location = useLocation();
   const { loginWithRedirect, logout, user, isAuthenticated, isLoading } = useAuth0();
@@ -30,10 +30,14 @@ const SidebarNavigation = () => {
         <h2 className="text-2xl font-black bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent hover:scale-105 transition-transform cursor-pointer">
           Text-to-Learn
         </h2>
+        <button onClick={closeSidebar} className="md:hidden text-gray-400 hover:text-white p-1">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
       </div>
       <nav className="flex-1 flex flex-col gap-3 min-h-0">
         <Link 
           to="/" 
+          onClick={closeSidebar}
           className="group flex items-center gap-4 px-4 py-3.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-transparent hover:border-white/10 transition-all duration-300 backdrop-blur-md"
         >
           <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 group-hover:scale-110 group-hover:bg-blue-500/30 transition-all">
@@ -50,6 +54,7 @@ const SidebarNavigation = () => {
               <Link 
                 key={course._id}
                 to={`/course/${course._id}`}
+                onClick={closeSidebar}
                 className="group flex items-center gap-4 px-4 py-3.5 rounded-2xl hover:bg-white/5 border border-transparent hover:border-white/5 transition-all duration-300 overflow-hidden"
               >
                 <div className="flex shrink-0 items-center justify-center w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 group-hover:scale-110 group-hover:bg-purple-500/20 transition-all">
