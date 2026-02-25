@@ -177,18 +177,18 @@ const LessonView = () => {
   }
 
   return (
-    <div className="w-full h-full p-8 md:p-12 lg:p-16 max-w-[1000px] mx-auto pb-32">
+    <div className="w-full h-full p-4 sm:p-8 md:p-12 lg:p-16 max-w-[1000px] mx-auto pb-24 md:pb-32">
       <header className="mb-14">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-          <div className="flex flex-wrap items-center gap-3 text-xs font-bold uppercase tracking-wider">
-            <Link to={`/course/${courseId}`} className="flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 text-blue-400 px-4 py-2 rounded-full shadow-inner hover:bg-blue-500/20 transition-colors cursor-pointer">
-               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-               Course Overview
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6 mb-6">
+          <div className="flex flex-wrap items-center gap-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider">
+            <Link to={`/course/${courseId}`} className="flex items-center gap-1 sm:gap-2 bg-blue-500/10 border border-blue-500/20 text-blue-400 px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-inner hover:bg-blue-500/20 transition-colors cursor-pointer">
+               <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+               Course Outline
             </Link>
             <span className="text-gray-600">/</span>
-            <span className="bg-purple-500/10 border border-purple-500/20 text-purple-400 px-4 py-2 rounded-full">Module {modIdxDisplay}</span>
+            <span className="bg-purple-500/10 border border-purple-500/20 text-purple-400 px-3 py-1.5 md:px-4 md:py-2 rounded-full">Module {modIdxDisplay}</span>
             <span className="text-gray-600">/</span>
-            <span className="bg-pink-500/10 border border-pink-500/20 text-pink-400 px-4 py-2 rounded-full shadow-[0_0_15px_rgba(236,72,153,0.2)]">Lesson {lessIdxDisplay}</span>
+            <span className="bg-pink-500/10 border border-pink-500/20 text-pink-400 px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-[0_0_15px_rgba(236,72,153,0.2)]">Lesson {lessIdxDisplay}</span>
           </div>
 
           {lesson.contentBlocks && lesson.contentBlocks.length > 0 && (
@@ -202,7 +202,7 @@ const LessonView = () => {
                       handleGenerateContent(e.target.value);
                     }}
                     disabled={isGenerating}
-                    className="appearance-none bg-white/5 border border-white/10 hover:border-white/20 text-white px-4 py-2 pr-8 rounded-full text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="appearance-none bg-white/5 border border-white/10 hover:border-white/20 text-white px-3 py-1.5 md:px-4 md:py-2 pr-7 md:pr-8 rounded-full text-xs md:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {availableLanguages.map(lang => (
                       <option key={`text-${lang}`} value={lang} className="bg-[#0a0a0a]">{lang}</option>
@@ -214,9 +214,9 @@ const LessonView = () => {
                 </div>
                 <button
                   onClick={() => handlePrint()}
-                  className="flex items-center justify-center shrink-0 gap-2 px-4 py-2 rounded-full text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 shadow-[0_0_15px_rgba(99,102,241,0.3)] hover:shadow-[0_0_25px_rgba(99,102,241,0.5)] transition-all duration-300 border border-indigo-400/30"
+                  className="flex items-center justify-center shrink-0 gap-1.5 md:gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 shadow-[0_0_15px_rgba(99,102,241,0.3)] hover:shadow-[0_0_25px_rgba(99,102,241,0.5)] transition-all duration-300 border border-indigo-400/30"
                 >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                  <svg className="w-3 h-3 md:w-4 md:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                   PDF
                 </button>
               </div>
@@ -234,7 +234,7 @@ const LessonView = () => {
                       }
                     }}
                     disabled={isAudioLoading || isPlaying}
-                    className="appearance-none bg-white/5 border border-white/10 hover:border-white/20 text-white px-4 py-2 pr-8 rounded-full text-sm font-medium focus:outline-none focus:ring-2 focus:ring-green-500/50 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="appearance-none bg-white/5 border border-white/10 hover:border-white/20 text-white px-3 py-1.5 md:px-4 md:py-2 pr-7 md:pr-8 rounded-full text-xs md:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-green-500/50 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {availableLanguages.map(lang => (
                       <option key={`audio-${lang}`} value={lang} className="bg-[#0a0a0a]">{lang}</option>
@@ -247,7 +247,7 @@ const LessonView = () => {
                 <button
                   onClick={playAudio}
                   disabled={isAudioLoading}
-                  className={`flex items-center justify-center shrink-0 gap-2 px-4 py-2 rounded-full text-sm font-bold text-white transition-all duration-300 border ${
+                  className={`flex items-center justify-center shrink-0 gap-1.5 md:gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold text-white transition-all duration-300 border ${
                     isAudioLoading ? 'bg-orange-500/50 cursor-not-allowed border-orange-400/30 shadow-[0_0_15px_rgba(249,115,22,0.5)]' :
                     isPlaying ? 'bg-gradient-to-r from-red-500 to-orange-600 hover:from-red-400 hover:to-orange-500 shadow-[0_0_15px_rgba(239,68,68,0.3)] border-red-400/30' :
                     'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 shadow-[0_0_15px_rgba(34,197,94,0.3)] border-green-400/30'
@@ -260,12 +260,12 @@ const LessonView = () => {
                     </>
                   ) : isPlaying ? (
                     <>
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                      Pause Audio
+                      <svg className="w-3 h-3 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                      Pause
                     </>
                   ) : (
                     <>
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                      <svg className="w-3 h-3 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                       Listen
                     </>
                   )}
@@ -275,8 +275,8 @@ const LessonView = () => {
           )}
         </div>
         
-        <div className="mb-6">
-          <h1 className="text-5xl sm:text-6xl font-black text-white tracking-tight leading-tight">
+        <div className="mb-4 md:mb-6">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-tight">
             {lesson.title}
           </h1>
         </div>
@@ -284,7 +284,7 @@ const LessonView = () => {
 
       <div className="relative group">
         <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-[2.5rem] blur opacity-20 group-hover:opacity-30 transition duration-1000 group-hover:duration-200"></div>
-        <article ref={contentRef} className="relative bg-[#0d0d0d] border border-white/10 p-10 md:p-14 print:p-10 rounded-[2rem] shadow-2xl">
+        <article ref={contentRef} className="relative bg-[#0d0d0d] border border-white/10 p-6 sm:p-10 md:p-14 print:p-10 rounded-3xl md:rounded-[2rem] shadow-2xl">
            {(!lesson.contentBlocks || lesson.contentBlocks.length === 0) ? (
              <div className="flex flex-col items-center justify-center py-12">
                {isGenerating ? (
