@@ -9,10 +9,10 @@ const MainLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="flex print:block h-[100dvh] print:h-auto w-full bg-[#030303] overflow-hidden print:overflow-visible font-sans text-gray-100 selection:bg-purple-500/30">
+    <div className="flex h-[100dvh] w-full bg-[#030303] overflow-hidden print:h-auto print:overflow-visible font-sans text-gray-100 selection:bg-purple-500/30">
       
       {/* Mobile top header */}
-      <div className="print:hidden md:hidden fixed top-0 left-0 right-0 h-16 bg-[#0a0a0a] border-b border-white/10 z-30 flex items-center justify-between px-4">
+      <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-[#0a0a0a] border-b border-white/10 z-30 flex items-center justify-between px-4">
         <h2 className="text-xl font-black bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
           Text-to-Learn
         </h2>
@@ -27,18 +27,18 @@ const MainLayout = () => {
       {/* Mobile overlay backdrop */}
       {isSidebarOpen && (
         <div 
-          className="print:hidden md:hidden fixed inset-0 bg-black/60 z-40 backdrop-blur-sm"
+          className="md:hidden fixed inset-0 bg-black/60 z-40 backdrop-blur-sm"
           onClick={() => setIsSidebarOpen(false)}
         ></div>
       )}
 
       {/* Sidebar container */}
-      <div className={`print:hidden fixed inset-y-0 left-0 z-50 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <div className={`fixed inset-y-0 left-0 z-50 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <SidebarNavigation closeSidebar={() => setIsSidebarOpen(false)} />
       </div>
 
-      <main className="flex-1 print:block print:static overflow-y-auto print:overflow-visible relative scroll-smooth scrollbar-hide pt-16 md:pt-0 print:pt-0">
-        <div className="print:hidden absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900/50 via-[#030303] to-[#030303] pointer-events-none -z-10"></div>
+      <main className="flex-1 overflow-y-auto print:overflow-visible relative scroll-smooth scrollbar-hide pt-16 md:pt-0">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900/50 via-[#030303] to-[#030303] pointer-events-none -z-10 print:hidden"></div>
         <Outlet />
       </main>
     </div>
