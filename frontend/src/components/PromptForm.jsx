@@ -46,32 +46,32 @@ const PromptForm = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         <div className="bg-[#0a0a0a] rounded-[1.4rem] p-8 relative z-10 w-full h-full border border-white/5">
           {isAuthenticated && (
-            <div className="mb-6 w-full text-left">
-              <h2 className="text-2xl md:text-4xl font-extrabold text-white tracking-tight animate-fade-in-up">
+            <div className="mb-4 w-full text-left">
+              <h2 className="text-xl md:text-4xl font-extrabold text-white tracking-tight animate-fade-in-up">
                 Welcome back, <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">{firstName}</span>! 👋
               </h2>
             </div>
           )}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             <div className="relative">
               <textarea
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
                 placeholder="What do you want to master today? Try 'Microeconomics' or 'World War II'..."
-                className="w-full bg-transparent border border-white/10 hover:border-white/20 rounded-2xl p-5 md:p-6 text-lg md:text-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50 focus:ring-4 focus:ring-purple-500/10 transition-all duration-300 min-h-[120px] md:min-h-[140px] resize-none"
+                className="w-full bg-transparent border border-white/10 hover:border-white/20 rounded-2xl p-4 md:p-6 text-base md:text-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50 focus:ring-4 focus:ring-purple-500/10 transition-all duration-300 min-h-[100px] md:min-h-[140px] resize-none"
               />
               <div className="absolute bottom-4 right-4 text-xs font-medium text-gray-500 bg-black/50 px-3 py-1.5 rounded-full backdrop-blur-md">
                 {topic.length} / 500
               </div>
             </div>
-            <div className="flex items-center justify-end mt-2">
+            <div className="flex items-center justify-end">
               <button 
                 type="submit"
                 disabled={!topic.trim() || isGenerating}
-                className="relative inline-flex h-14 overflow-hidden rounded-2xl p-[2px] focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed group/btn"
+                className="relative inline-flex h-12 md:h-14 overflow-hidden rounded-2xl p-[2px] focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed group/btn"
               >
                 <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
-                <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-[14px] bg-gray-950 px-8 py-2 text-sm font-bold text-white backdrop-blur-3xl group-hover/btn:bg-gray-900 transition-colors">
+                <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-[14px] bg-gray-950 px-6 md:px-8 py-2 text-sm font-bold text-white backdrop-blur-3xl group-hover/btn:bg-gray-900 transition-colors">
                   {isGenerating ? (
                     <div className="flex items-center gap-3">
                       <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
