@@ -41,13 +41,13 @@ const PromptForm = () => {
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto transform transition-all hover:scale-[1.01] duration-500">
+    <div className="w-full max-w-2xl mx-auto transform transition-all hover:scale-[1.01] duration-500">
       <div className="backdrop-blur-xl bg-white/5 p-1 rounded-3xl border border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.12)] relative overflow-hidden group">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         <div className="bg-[#0a0a0a] rounded-[1.4rem] p-8 relative z-10 w-full h-full border border-white/5">
           {isAuthenticated && (
             <div className="mb-4 w-full text-left">
-              <h2 className="text-xl md:text-4xl font-extrabold text-white tracking-tight animate-fade-in-up">
+              <h2 className="text-xl md:text-3xl font-extrabold text-white tracking-tight animate-fade-in-up">
                 Welcome back, <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">{firstName}</span>! 👋
               </h2>
             </div>
@@ -91,25 +91,25 @@ const PromptForm = () => {
       </div>
       
       {showLoginModal && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/70 backdrop-blur-sm">
-          <div className="bg-gray-800 border border-gray-700 rounded-xl p-8 max-w-md w-full text-center shadow-2xl">
-            <div className="text-5xl mb-4">🔒</div>
-            <h3 className="text-2xl font-bold text-white mb-2">Authentication Required</h3>
-            <p className="text-gray-300 mb-6">
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/70 backdrop-blur-sm px-4">
+          <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl">
+            <div className="text-4xl sm:text-5xl mb-3 sm:mb-4">🔒</div>
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Authentication Required</h3>
+            <p className="text-sm sm:text-base text-gray-300 mb-5 sm:mb-6">
               You must be logged in to generate AI courses and save your progress.
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-3 sm:gap-4">
               <button
                 onClick={() => setShowLoginModal(false)}
                 type="button"
-                className="flex-1 py-3 px-4 rounded-xl font-medium text-white bg-gray-700 hover:bg-gray-600 transition-colors"
+                className="flex-1 py-2 sm:py-3 px-3 sm:px-4 rounded-xl text-sm sm:text-base font-medium text-white bg-gray-700 hover:bg-gray-600 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={() => loginWithRedirect()}
                 type="button"
-                className="flex-1 py-3 px-4 rounded-xl font-bold text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 transition-all shadow-lg hover:shadow-purple-500/30"
+                className="flex-1 py-2 sm:py-3 px-3 sm:px-4 rounded-xl text-sm sm:text-base font-bold text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 transition-all shadow-lg hover:shadow-purple-500/30"
               >
                 Log In / Sign Up
               </button>
