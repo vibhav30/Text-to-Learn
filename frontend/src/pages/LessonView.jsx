@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import html2pdf from 'html2pdf.js';
 import LessonRenderer from '../components/LessonRenderer';
 
 const LessonView = () => {
@@ -17,6 +16,7 @@ const LessonView = () => {
   const [isAudioLoading, setIsAudioLoading] = useState(false);
   const [audioInstance, setAudioInstance] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
 
   const availableLanguages = [
     'English', 'Hinglish', 'Hindi', 'Bengali', 'Telugu', 'Marathi', 'Tamil', 
@@ -27,27 +27,38 @@ const LessonView = () => {
   const hasAttempted = useRef(false);
   const contentRef = useRef(null);
 
-  const handlePrint = () => {
-    if (!contentRef.current) return;
-    const element = contentRef.current;
-    
-    // Add a temporary class to hide elements during PDF generation (like the export buttons inside if any)
-    element.classList.add('pdf-export-mode');
-    
-    const opt = {
-      margin:       10,
-      filename:     `${lesson?.title || 'Lesson'}.pdf`,
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2, useCORS: true, letterRendering: true, windowWidth: 800 },
-      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
+  const handlePrint = async () => {
+    if (!contentRef.current || isExporting) return;
+    setIsExporting(true);
+    try {
+      const element = contentRef.current;
+      element.classList.add('pdf-export-mode');
+      
+      const opt = {
+        margin:       10,
+        filename:     `${lesson?.title || 'Lesson'}.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { 
+          scale: window.innerWidth < 768 ? 1.5 : 2, 
+          useCORS: true, 
+          letterRendering: true, 
+          windowWidth: element.scrollWidth,
+          ignoreElements: (node) => node.tagName === 'IFRAME' || node.classList.contains('pdf-exclude')
+        },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
 
-    html2pdf().set(opt).from(element).save().then(() => {
-      element.classList.remove('pdf-export-mode');
-    }).catch(err => {
+      // Dynamically import to avoid Vite bundle issues
+      const html2pdfModule = await import('html2pdf.js');
+      const html2pdf = html2pdfModule.default || html2pdfModule;
+
+      await html2pdf().set(opt).from(element).save();
+    } catch (err) {
       console.error("PDF Export Error:", err);
-      element.classList.remove('pdf-export-mode');
-    });
+    } finally {
+      if (contentRef.current) contentRef.current.classList.remove('pdf-export-mode');
+      setIsExporting(false);
+    }
   };
 
   const handleGenerateContent = async (selectedLanguage = null) => {
@@ -233,10 +244,22 @@ const LessonView = () => {
                 </div>
                 <button
                   onClick={() => handlePrint()}
-                  className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs md:text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 shadow-[0_0_15px_rgba(99,102,241,0.3)] transition-all duration-300 border border-indigo-400/30"
+                  disabled={isExporting}
+                  className={`w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs md:text-sm font-bold text-white transition-all duration-300 border ${
+                    isExporting ? 'bg-indigo-500/50 cursor-not-allowed border-indigo-400/30' : 'bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 shadow-[0_0_15px_rgba(99,102,241,0.3)] border-indigo-400/30'
+                  }`}
                 >
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                  Export PDF
+                  {isExporting ? (
+                    <>
+                      <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Generating...
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                      Export PDF
+                    </>
+                  )}
                 </button>
               </div>
               
@@ -339,10 +362,10 @@ const LessonView = () => {
            ) : (
              <div className="flex flex-col gap-10">
                <LessonRenderer content={lesson.contentBlocks} />
-               <div className="flex justify-center mt-8 pt-8 border-t border-white/10">
-                 <button
-                   onClick={handleToggleComplete}
-                   className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-bold text-white transition-all duration-300 border ${
+                <div className="flex justify-center mt-8 pt-8 border-t border-white/10 pdf-exclude">
+                  <button
+                    onClick={handleToggleComplete}
+                    className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-bold text-white transition-all duration-300 border ${
                      lesson.isCompleted
                        ? 'bg-green-500/20 border-green-500/50 hover:bg-green-500/30 text-green-400 shadow-[0_0_20px_rgba(34,197,94,0.2)]'
                        : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
