@@ -47,7 +47,7 @@ const PromptForm = () => {
         <div className="bg-[#0a0a0a] rounded-[1.4rem] p-8 relative z-10 w-full h-full border border-white/5">
           {isAuthenticated && (
             <div className="mb-6 w-full text-left">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight animate-fade-in-up">
+              <h2 className="text-2xl md:text-4xl font-extrabold text-white tracking-tight animate-fade-in-up">
                 Welcome back, <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">{firstName}</span>! 👋
               </h2>
             </div>
@@ -58,7 +58,7 @@ const PromptForm = () => {
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
                 placeholder="What do you want to master today? Try 'Microeconomics' or 'World War II'..."
-                className="w-full bg-transparent border border-white/10 hover:border-white/20 rounded-2xl p-6 text-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50 focus:ring-4 focus:ring-purple-500/10 transition-all duration-300 min-h-[140px] resize-none"
+                className="w-full bg-transparent border border-white/10 hover:border-white/20 rounded-2xl p-5 md:p-6 text-lg md:text-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50 focus:ring-4 focus:ring-purple-500/10 transition-all duration-300 min-h-[120px] md:min-h-[140px] resize-none"
               />
               <div className="absolute bottom-4 right-4 text-xs font-medium text-gray-500 bg-black/50 px-3 py-1.5 rounded-full backdrop-blur-md">
                 {topic.length} / 500

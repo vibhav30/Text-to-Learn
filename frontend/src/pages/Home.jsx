@@ -12,11 +12,11 @@ const Home = () => {
           <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
           <span className="text-xs font-semibold text-gray-300 uppercase tracking-wider text-emerald-400">AI Powered Learning</span>
         </div>
-        <h1 className="text-6xl sm:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-500 mb-8 tracking-tight drop-shadow-sm leading-tight">
+        <h1 className="text-5xl sm:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-500 mb-6 sm:mb-8 tracking-tight drop-shadow-sm leading-tight">
           Learn Anything,<br/>
           <span className="bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 bg-clip-text text-transparent">Instantly.</span>
         </h1>
-        <p className="text-xl sm:text-2xl text-gray-400 font-light leading-relaxed mb-4">
+        <p className="text-lg sm:text-2xl text-gray-400 font-light leading-relaxed mb-4">
           Provide any topic. We generate a comprehensive curriculum tailored precisely to you.
         </p>
       </div>
