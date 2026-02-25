@@ -10,21 +10,3 @@ body,
     overflow: hidden;
     /* Prevent default mobile browser bounce/scroll */
 }
-
-@media print {
-
-    html,
-    body,
-    #root {
-        height: auto !important;
-        overflow: visible !important;
-        background: white !important;
-        color: black !important;
-    }
-
-    aside,
-    header nav,
-    .print\:hidden {
-        display: none !important;
-    }
-}

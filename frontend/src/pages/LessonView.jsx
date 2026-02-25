@@ -16,6 +16,7 @@ const LessonView = () => {
   const [isAudioLoading, setIsAudioLoading] = useState(false);
   const [audioInstance, setAudioInstance] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
 
   const availableLanguages = [
     'English', 'Hinglish', 'Hindi', 'Bengali', 'Telugu', 'Marathi', 'Tamil', 
@@ -26,8 +27,64 @@ const LessonView = () => {
   const hasAttempted = useRef(false);
   const contentRef = useRef(null);
 
-  const handlePrint = () => {
-    window.print();
+  const handlePrint = async () => {
+    if (isExporting || !lesson || !lesson.contentBlocks) return;
+    setIsExporting(true);
+    
+    try {
+      const content = [];
+      content.push({ text: lesson.title || 'Lesson', style: 'mainTitle' });
+      
+      lesson.contentBlocks.forEach(block => {
+        if (block.type === 'heading') {
+          content.push({ text: block.text, style: `heading${block.level || 2}` });
+        } else if (block.type === 'paragraph') {
+          content.push({ text: block.text, style: 'paragraph' });
+        } else if (block.type === 'code') {
+          content.push({ text: block.code || block.text || '', style: 'code', preserveLeadingSpaces: true });
+        } else if (block.type === 'video') {
+          content.push({ text: `[Video omitted from PDF: ${block.url || 'External Link'}]`, style: 'omitted' });
+        } else if (block.type === 'mcq') {
+          content.push({ text: `Question: ${block.question}`, style: 'mcqQuestion' });
+          if (Array.isArray(block.options)) {
+            content.push({ ul: block.options, style: 'mcqOptions' });
+          }
+          if (block.answer) {
+             content.push({ text: `Answer: ${block.answer}`, style: 'mcqAnswer' });
+          }
+        }
+      });
+
+      const docDefinition = {
+        content: content,
+        styles: {
+          mainTitle: { fontSize: 24, bold: true, margin: [0, 0, 0, 20], color: '#111827' },
+          heading1: { fontSize: 20, bold: true, margin: [0, 15, 0, 10], color: '#1f2937' },
+          heading2: { fontSize: 18, bold: true, margin: [0, 12, 0, 8], color: '#374151' },
+          heading3: { fontSize: 14, bold: true, margin: [0, 10, 0, 5], color: '#4b5563' },
+          paragraph: { fontSize: 12, margin: [0, 0, 0, 10], color: '#374151', lineHeight: 1.5 },
+          code: { fontSize: 10, background: '#f3f4f6', margin: [0, 5, 0, 15], color: '#111827' },
+          omitted: { fontSize: 10, italics: true, color: '#9ca3af', margin: [0, 5, 0, 10] },
+          mcqQuestion: { fontSize: 12, bold: true, margin: [0, 10, 0, 5], color: '#1f2937' },
+          mcqOptions: { fontSize: 11, margin: [20, 0, 0, 10], color: '#4b5563' },
+          mcqAnswer: { fontSize: 11, italics: true, margin: [0, 0, 0, 15], color: '#059669' }
+        },
+        defaultStyle: { font: 'Roboto' }
+      };
+
+      const pdfMakeModule = await import('pdfmake/build/pdfmake.js');
+      const pdfFontsModule = await import('pdfmake/build/vfs_fonts.js');
+      const pdfMake = pdfMakeModule.default || pdfMakeModule;
+      const vfsFonts = pdfFontsModule.default || pdfFontsModule;
+      
+      pdfMake.vfs = vfsFonts.pdfMake ? vfsFonts.pdfMake.vfs : vfsFonts.vfs;
+
+      pdfMake.createPdf(docDefinition).download(`${lesson.title || 'Lesson'}.pdf`);
+    } catch (err) {
+      console.error("PDF Export Error:", err);
+    } finally {
+      setIsExporting(false);
+    }
   };
 
   const handleGenerateContent = async (selectedLanguage = null) => {
@@ -174,9 +231,9 @@ const LessonView = () => {
   }
 
   return (
-    <div className="w-full h-full p-4 sm:p-8 md:p-12 lg:p-16 max-w-[1000px] mx-auto pb-24 md:pb-32 print:p-0 print:pb-0 print:bg-white print:text-black">
-      <header className="mb-14 print:mb-6">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6 mb-6 print:hidden">
+    <div className="w-full h-full p-4 sm:p-8 md:p-12 lg:p-16 max-w-[1000px] mx-auto pb-24 md:pb-32">
+      <header className="mb-14">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6 mb-6">
           <div className="flex flex-wrap items-center gap-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider">
             <Link to={`/course/${courseId}`} className="flex items-center gap-1 sm:gap-2 bg-blue-500/10 border border-blue-500/20 text-blue-400 px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-inner hover:bg-blue-500/20 transition-colors cursor-pointer">
                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
@@ -213,10 +270,22 @@ const LessonView = () => {
                 </div>
                 <button
                   onClick={() => handlePrint()}
-                  className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs md:text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 shadow-[0_0_15px_rgba(99,102,241,0.3)] transition-all duration-300 border border-indigo-400/30"
+                  disabled={isExporting}
+                  className={`w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs md:text-sm font-bold text-white transition-all duration-300 border ${
+                    isExporting ? 'bg-indigo-500/50 cursor-not-allowed border-indigo-400/30' : 'bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 shadow-[0_0_15px_rgba(99,102,241,0.3)] border-indigo-400/30'
+                  }`}
                 >
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                  Export PDF
+                  {isExporting ? (
+                    <>
+                      <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Generating...
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                      Export PDF
+                    </>
+                  )}
                 </button>
               </div>
               
@@ -277,15 +346,15 @@ const LessonView = () => {
         </div>
         
         <div className="mb-4 md:mb-6">
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-white print:text-black tracking-tight leading-tight">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-tight">
             {lesson.title}
           </h1>
         </div>
       </header>
 
       <div className="relative group">
-        <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-[2.5rem] blur opacity-20 group-hover:opacity-30 transition duration-1000 group-hover:duration-200 print:hidden"></div>
-        <article ref={contentRef} className="relative bg-[#0d0d0d] print:bg-transparent print:border-none print:shadow-none print:text-black border border-white/10 p-6 sm:p-10 md:p-14 print:p-0 rounded-3xl md:rounded-[2rem] shadow-2xl">
+        <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-[2.5rem] blur opacity-20 group-hover:opacity-30 transition duration-1000 group-hover:duration-200"></div>
+        <article ref={contentRef} className="relative bg-[#0d0d0d] border border-white/10 p-6 sm:p-10 md:p-14 rounded-3xl md:rounded-[2rem] shadow-2xl">
            {(!lesson.contentBlocks || lesson.contentBlocks.length === 0) ? (
              <div className="flex flex-col items-center justify-center py-12">
                {isGenerating ? (
@@ -319,7 +388,7 @@ const LessonView = () => {
            ) : (
              <div className="flex flex-col gap-10">
                <LessonRenderer content={lesson.contentBlocks} />
-                 <div className="flex justify-center mt-8 pt-8 border-t border-white/10 print:hidden">
+                 <div className="flex justify-center mt-8 pt-8 border-t border-white/10">
                   <button
                     onClick={handleToggleComplete}
                     className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-bold text-white transition-all duration-300 border ${
