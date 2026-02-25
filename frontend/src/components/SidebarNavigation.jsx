@@ -25,7 +25,7 @@ const SidebarNavigation = ({ closeSidebar }) => {
   }, [location.pathname, isAuthenticated, user?.sub]);
 
   return (
-    <aside className="w-80 shrink-0 bg-[#0a0a0a] border-r border-white/10 text-white flex flex-col h-screen p-6 shadow-2xl relative z-10">
+    <aside className="w-80 shrink-0 bg-[#0a0a0a] border-r border-white/10 text-white flex flex-col h-full p-6 shadow-2xl relative z-10">
       <div className="mb-10 flex items-center justify-between">
         <h2 className="text-2xl font-black bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent hover:scale-105 transition-transform cursor-pointer">
           Text-to-Learn

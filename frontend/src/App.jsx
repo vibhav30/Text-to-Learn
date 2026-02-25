@@ -9,7 +9,7 @@ const MainLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen w-full bg-[#030303] overflow-hidden font-sans text-gray-100 selection:bg-purple-500/30">
+    <div className="flex h-[100dvh] w-full bg-[#030303] overflow-hidden font-sans text-gray-100 selection:bg-purple-500/30">
       
       {/* Mobile top header */}
       <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-[#0a0a0a] border-b border-white/10 z-30 flex items-center justify-between px-4">
