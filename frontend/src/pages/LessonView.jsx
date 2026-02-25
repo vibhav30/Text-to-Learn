@@ -177,9 +177,9 @@ const LessonView = () => {
   }
 
   return (
-    <div className="w-full h-full p-4 sm:p-8 md:p-12 lg:p-16 max-w-[1000px] mx-auto pb-24 md:pb-32">
-      <header className="mb-14">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6 mb-6">
+    <div ref={contentRef} className="print:block print:w-full print:h-auto print:overflow-visible w-full h-full p-4 sm:p-8 md:p-12 lg:p-16 max-w-[1000px] mx-auto pb-24 md:pb-32 print:p-0 print:pb-0 print:bg-[#030303]">
+      <header className="mb-14 print:mb-8 print:pt-8 print:px-8">
+        <div className="print:hidden flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6 mb-6">
           <div className="flex flex-wrap items-center gap-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider">
             <Link to={`/course/${courseId}`} className="flex items-center gap-1 sm:gap-2 bg-blue-500/10 border border-blue-500/20 text-blue-400 px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-inner hover:bg-blue-500/20 transition-colors cursor-pointer">
                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
@@ -287,8 +287,8 @@ const LessonView = () => {
       </header>
 
       <div className="relative group">
-        <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-[2.5rem] blur opacity-20 group-hover:opacity-30 transition duration-1000 group-hover:duration-200 print:hidden"></div>
-        <article ref={contentRef} className="relative bg-[#0d0d0d] border border-white/10 p-6 sm:p-10 md:p-14 print:p-6 print:m-4 rounded-3xl md:rounded-[2rem] shadow-2xl overflow-hidden print:overflow-visible">
+        <div className="print:hidden absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-[2.5rem] blur opacity-20 group-hover:opacity-30 transition duration-1000 group-hover:duration-200"></div>
+        <article className="relative bg-[#0d0d0d] print:bg-transparent print:border-none print:shadow-none border border-white/10 p-6 sm:p-10 md:p-14 print:p-8 rounded-3xl md:rounded-[2rem] shadow-2xl overflow-hidden print:overflow-visible">
            {(!lesson.contentBlocks || lesson.contentBlocks.length === 0) ? (
              <div className="flex flex-col items-center justify-center py-12">
                {isGenerating ? (
