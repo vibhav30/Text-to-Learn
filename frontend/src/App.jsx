@@ -9,7 +9,7 @@ const MainLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-[100dvh] w-full bg-[#030303] overflow-hidden font-sans text-gray-100 selection:bg-purple-500/30">
+    <div className="flex h-[100dvh] w-full bg-[#030303] overflow-hidden print:h-auto print:overflow-visible font-sans text-gray-100 selection:bg-purple-500/30">
       
       {/* Mobile top header */}
       <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-[#0a0a0a] border-b border-white/10 z-30 flex items-center justify-between px-4">
@@ -37,8 +37,8 @@ const MainLayout = () => {
         <SidebarNavigation closeSidebar={() => setIsSidebarOpen(false)} />
       </div>
 
-      <main className="flex-1 overflow-y-auto relative scroll-smooth scrollbar-hide pt-16 md:pt-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900/50 via-[#030303] to-[#030303] pointer-events-none -z-10"></div>
+      <main className="flex-1 overflow-y-auto print:overflow-visible relative scroll-smooth scrollbar-hide pt-16 md:pt-0">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900/50 via-[#030303] to-[#030303] pointer-events-none -z-10 print:hidden"></div>
         <Outlet />
       </main>
     </div>
