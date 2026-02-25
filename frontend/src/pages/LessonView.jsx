@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import { useReactToPrint } from 'react-to-print';
+import html2pdf from 'html2pdf.js';
 import LessonRenderer from '../components/LessonRenderer';
 
 const LessonView = () => {
@@ -27,11 +27,28 @@ const LessonView = () => {
   const hasAttempted = useRef(false);
   const contentRef = useRef(null);
 
-  const handlePrint = useReactToPrint({ 
-    contentRef, 
-    documentTitle: lesson?.title || 'Lesson_Export',
-    onPrintError: (errorLocation, error) => console.error("Print Error:", errorLocation, error)
-  });
+  const handlePrint = () => {
+    if (!contentRef.current) return;
+    const element = contentRef.current;
+    
+    // Add a temporary class to hide elements during PDF generation (like the export buttons inside if any)
+    element.classList.add('pdf-export-mode');
+    
+    const opt = {
+      margin:       10,
+      filename:     `${lesson?.title || 'Lesson'}.pdf`,
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2, useCORS: true, letterRendering: true, windowWidth: 800 },
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(element).save().then(() => {
+      element.classList.remove('pdf-export-mode');
+    }).catch(err => {
+      console.error("PDF Export Error:", err);
+      element.classList.remove('pdf-export-mode');
+    });
+  };
 
   const handleGenerateContent = async (selectedLanguage = null) => {
     setApiError(null);
@@ -192,9 +209,11 @@ const LessonView = () => {
           </div>
 
           {lesson.contentBlocks && lesson.contentBlocks.length > 0 && (
-            <div className="flex flex-col gap-3 self-start md:self-auto items-end">
-              <div className="flex items-center gap-3">
-                <div className="relative group">
+            <div className="flex flex-col gap-3 self-start md:self-auto w-full md:w-auto mt-4 md:mt-0">
+              
+              {/* PDF Translation & Export Row */}
+              <div className="grid grid-cols-2 gap-2 w-full md:w-[280px]">
+                <div className="relative group w-full">
                   <select
                     value={language}
                     onChange={(e) => {
@@ -202,27 +221,28 @@ const LessonView = () => {
                       handleGenerateContent(e.target.value);
                     }}
                     disabled={isGenerating}
-                    className="appearance-none bg-white/5 border border-white/10 hover:border-white/20 text-white px-3 py-1.5 md:px-4 md:py-2 pr-7 md:pr-8 rounded-full text-xs md:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full appearance-none bg-white/5 border border-white/10 hover:border-white/20 text-white px-3 py-2 pr-7 rounded-lg text-xs md:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {availableLanguages.map(lang => (
                       <option key={`text-${lang}`} value={lang} className="bg-[#0a0a0a]">{lang}</option>
                     ))}
                   </select>
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                   </div>
                 </div>
                 <button
                   onClick={() => handlePrint()}
-                  className="flex items-center justify-center shrink-0 gap-1.5 md:gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 shadow-[0_0_15px_rgba(99,102,241,0.3)] hover:shadow-[0_0_25px_rgba(99,102,241,0.5)] transition-all duration-300 border border-indigo-400/30"
+                  className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs md:text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 shadow-[0_0_15px_rgba(99,102,241,0.3)] transition-all duration-300 border border-indigo-400/30"
                 >
-                  <svg className="w-3 h-3 md:w-4 md:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                  PDF
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                  Export PDF
                 </button>
               </div>
               
-              <div className="flex items-center gap-3">
-                <div className="relative group">
+              {/* Audio Translation & Listening Row */}
+              <div className="grid grid-cols-2 gap-2 w-full md:w-[280px]">
+                <div className="relative group w-full">
                   <select
                     value={audioLanguage}
                     onChange={(e) => {
@@ -234,20 +254,20 @@ const LessonView = () => {
                       }
                     }}
                     disabled={isAudioLoading || isPlaying}
-                    className="appearance-none bg-white/5 border border-white/10 hover:border-white/20 text-white px-3 py-1.5 md:px-4 md:py-2 pr-7 md:pr-8 rounded-full text-xs md:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-green-500/50 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full appearance-none bg-white/5 border border-white/10 hover:border-white/20 text-white px-3 py-2 pr-7 rounded-lg text-xs md:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-green-500/50 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {availableLanguages.map(lang => (
                       <option key={`audio-${lang}`} value={lang} className="bg-[#0a0a0a]">{lang}</option>
                     ))}
                   </select>
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                   </div>
                 </div>
                 <button
                   onClick={playAudio}
                   disabled={isAudioLoading}
-                  className={`flex items-center justify-center shrink-0 gap-1.5 md:gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold text-white transition-all duration-300 border ${
+                  className={`w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs md:text-sm font-bold text-white transition-all duration-300 border ${
                     isAudioLoading ? 'bg-orange-500/50 cursor-not-allowed border-orange-400/30 shadow-[0_0_15px_rgba(249,115,22,0.5)]' :
                     isPlaying ? 'bg-gradient-to-r from-red-500 to-orange-600 hover:from-red-400 hover:to-orange-500 shadow-[0_0_15px_rgba(239,68,68,0.3)] border-red-400/30' :
                     'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 shadow-[0_0_15px_rgba(34,197,94,0.3)] border-green-400/30'
@@ -255,22 +275,23 @@ const LessonView = () => {
                 >
                   {isAudioLoading ? (
                     <>
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      Translating...
+                      <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Wait...
                     </>
                   ) : isPlaying ? (
                     <>
-                      <svg className="w-3 h-3 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                      <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
                       Pause
                     </>
                   ) : (
                     <>
-                      <svg className="w-3 h-3 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                      <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                       Listen
                     </>
                   )}
                 </button>
               </div>
+
             </div>
           )}
         </div>
