@@ -1,30 +1,34 @@
 # 🚀 Text-to-Learn | *AI Course Generator*
 
-> **Text-to-Learn** is a bleeding-edge, full-stack AI platform that transforms simple text prompts into highly structured, personalized courses and detailed lessons. Built with a modern React frontend and a robust Node.js backend, it leverages **Google's Gemini AI** to generate continuous educational content on demand.
+> **Text-to-Learn** is a bleeding-edge, full-stack AI platform that completely redefines digital learning. By transforming simple text prompts into highly structured educational content, the application empowers users to generate modular courses, dynamic lessons, interactive MCQs, multilingual text-to-speech audio, and even relevant YouTube video integrations—instantly! Built with a modern React frontend and a robust Node.js backend, it leverages **Google's Gemini AI** to act as your personal, on-demand tutor.
 
 ---
 
 ## 📸 Sneak Peek
 
-*(Your beautiful screenshots belong here!)*
+*(Add your beautiful screenshots into the `ss` folder!)*
 
-| Dashboard | Lesson View | Secure Auth |
-| :---: | :---: | :---: |
-| ![Dashboard](./ss/dashboard.png) | ![Lesson View](./ss/lesson-view.png) | ![Auth Modal](./ss/auth-modal.png) |
-| *Figure 1: Generation Dashboard* | *Figure 2: Rich Lesson Rendering* | *Figure 3: Secure Auth0 Login* |
+<p align="center">
+  <img src="./ss/dashboard.png" alt="Generation Dashboard" width="32%" />
+  &nbsp;
+  <img src="./ss/lesson-view.png" alt="Rich Lesson Rendering" width="32%" />
+  &nbsp;
+  <img src="./ss/auth-modal.png" alt="Secure Auth0 Login" width="32%" />
+</p>
 
 ---
 
 ## ✨ Key Features & Technical Marvels
 
-- **🧠 Full-Stack AI Pipeline**: Instantly generates structured learning modules and detailed markdown lessons from user-provided prompts using **Google Gemini LLM**.
+- **🧠 Full-Stack AI Pipeline**: Instantly generates well-structured learning modules and detailed markdown lessons from user-provided prompts using **Google Gemini LLM**.
+- **🎥 Dynamic YouTube Integrations**: Automatically fetches and embeds hyper-relevant YouTube videos directly into the generated coursework to supplement text-based learning visually.
 - **🗣️ Multilingual Text-to-Speech (TTS)**: Integrated dynamic TTS support, enabling automatic Hinglish, Pure Hindi, and Tamil lesson narration via Google TTS APIs for unmatched accessibility.
-- **📄 High-Fidelity PDF Export**: Designed PDF lesson export functionality using `react-to-print`, allowing users to download and access visually accurate, heavily formatted lessons entirely offline.
-- **📊 Integrated Quiz Generation**: Automatically generates end-of-lesson multiple-choice quizzes to rigorously test knowledge retention and engagement.
+- **📄 High-Fidelity PDF Export**: Designed PDF lesson export functionality using `react-to-print`, allowing users to download visually accurate, heavily formatted modular lessons entirely offline.
+- **📊 Integrated Quiz Generation**: Rapidly generates end-of-lesson multiple-choice questions (MCQs) to rigorously test knowledge retention and user engagement.
 - **📈 Progress Tracking**: Built-in visual indicators and completion tracking to monitor individual course progression effortlessly.
-- **🌙 Native Dark Mode**: A stunning, accessible, and sleek default Dark Mode user interface built with **Tailwind CSS**, featuring glassmorphic elements, engaging hover states, and smooth micro-animations.
+- **🌙 Native Dark Mode**: A stunning, accessible, and sleek default Dark Mode user interface built with **Tailwind CSS**, featuring glassmorphic elements, engaging hover states, and seamless micro-animations.
 - **🔐 Enterprise-Grade Security**: Secured from end-to-end with **Auth0**. Implemented custom Express middleware including `express-jwt` and `jwks-rsa` for robust API route protection and centralized error handling.
-- **⚡ Scalable RESTful Backend**: A high-performance REST API utilizing Node.js, Express, and MongoDB (Mongoose), featuring complex hierarchical data relationships (Course ➔ Module ➔ Lesson) tied securely to user accounts.
+- **⚡ Scalable RESTful Backend**: A high-performance REST API utilizing Node.js, Express, and MongoDB (Mongoose), managing complex hierarchical data relationships (Course ➔ Module ➔ Lesson) tied securely to individual users.
 
 ---
 
@@ -43,7 +47,7 @@
 - **Framework**: Express.js
 - **Database**: MongoDB (Mongoose)
 - **AI Integration**: Google Gen AI SDK (`@google/genai`)
-- **Audio Generation**: Google TTS API (`google-tts-api`)
+- **Media & Audio**: Google TTS API (`google-tts-api`), YouTube Data API
 - **Security**: `express-jwt`, `jwks-rsa`, `express-rate-limit`, `cors`
 
 ---
@@ -55,6 +59,7 @@ Ensure you have the following installed on your machine:
 - 🍃 **MongoDB** (Local instance or MongoDB Atlas cluster)
 - 🛡️ **Auth0 Account** (To configure Domain, Client ID, and Audience API)
 - 🔑 **Google Gemini API Key** (Generated via Google AI Studio)
+- 🔴 **YouTube Data API Key** (Generated via Google Cloud Console)
 
 ---
 
@@ -78,6 +83,7 @@ Create a `.env` file in the `/backend` directory:
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 GEMINI_API_KEY=your_google_gemini_api_key
+YOUTUBE_API_KEY=your_youtube_api_key
 
 # Auth0 Backend Verification
 AUTH0_ISSUER_BASE_URL=https://your-auth0-domain.us.auth0.com/
@@ -116,10 +122,10 @@ npm run dev
 ## 💻 Usage Guide
 
 1. 👤 **Sign Up / Log In**: Click the Login button in the sidebar. You will be authenticated securely via Auth0. Unauthenticated users will be met with a custom modal restricting course generation.
-2. ✍️ **Generate a Course**: On the main dashboard, type any topic you wish to learn about and submit. The multi-stage AI pipeline will initiate.
-3. 📚 **Explore Lessons**: The AI will generate a structured module list. Click on any module/lesson to generate and render the detailed Markdown lesson content.
+2. ✍️ **Generate a Course**: On the main dashboard, type any topic you wish to learn about and submit. The multi-stage AI pipeline will orchestrate your learning material.
+3. 📚 **Explore Lessons**: The AI will generate a structured module list. Click on any module/lesson to render the detailed Markdown content alongside curated YouTube videos and MCQs.
 4. 🎧 **Listen to the Lesson**: In the Lesson View, select your preferred language (Hinglish/Hindi/Tamil) from the dropdown and hit **Play** to hear the TTS reader.
-5. 📥 **Download as PDF**: Click the **Export** button in the top right of the lesson header to save your lesson visually for offline usage.
+5. 📥 **Download as PDF**: Click the **Export** button in the top right of the lesson header to beautifully convert and save your lesson visually for offline usage.
 
 ---
 
@@ -132,7 +138,7 @@ Text-to-Learn/
 │   ├── middleware/       # Auth validation (JWT), Rate limiting, Error Handling
 │   ├── models/           # Mongoose schemas (Course, Lesson, User)
 │   ├── routes/           # Express API routes
-│   ├── services/         # Gemini AI & TTS logic (geminiService.js)
+│   ├── services/         # Gemini AI, YouTube, & TTS logic
 │   ├── server.js         # Backend entry point
 │   └── package.json
 └── frontend/
