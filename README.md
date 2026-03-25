@@ -1,24 +1,31 @@
 # 🚀 Text-to-Learn | *AI Course Generator*
 
-> **Text-to-Learn** is a bleeding-edge, full-stack AI platform that completely redefines digital learning. By transforming simple text prompts into highly structured educational content, the application empowers users to generate modular courses, dynamic lessons, interactive MCQs, multilingual text-to-speech audio, and even relevant YouTube video integrations—instantly! Built with a modern React frontend and a robust Node.js backend, it leverages **Google's Gemini AI** to act as your personal, on-demand tutor.
+> **Text-to-Learn** is a full-stack, AI-powered educational platform. By leveraging cutting-edge Artificial Intelligence, the application empowers users to generate modular courses, dynamic lessons, interactive MCQs, multilingual text-to-speech audio, and even relevant YouTube video integrations instantly!
+
+Built with a robust React frontend and an Express-powered scalable backend, it showcases end-to-end full-stack capabilities, enterprise-grade security via **Auth0**, and complex orchestrations of multiple third-party API services (Google Gemini LLM, Google TTS, YouTube Data API).
 
 ---
 
-## 📸 Sneak Peek
+## 📸 Platform Sneak Peek
 
-<p align="center">
-  <img src="./screenshots/Home_Page.png" alt="Home Page Dashboard" width="32%" />
-  &nbsp;
-  <img src="./screenshots/Course_Page.png" alt="Course Outline Generation" width="32%" />
-  &nbsp;
-  <img src="./screenshots/Lesson_Page.png" alt="Rich Lesson Rendering" width="32%" />
-</p>
+<div align="center">
 
-<p align="center">
-  <img src="./screenshots/Video_Integration.png" alt="Dynamic Video Integration" width="48%" />
-  &nbsp;
-  <img src="./screenshots/MCQs_Explanation.png" alt="Interactive MCQs Explanation" width="48%" />
-</p>
+<img src="./screenshots/Home_Page.png" alt="Home Page Dashboard" width="90%" />
+<br><em><b>Figure 1: Home Dashboard & Initial Generation Prompt</b></em><br><br>
+
+<img src="./screenshots/Course_Page.png" alt="Course Outline Generation" width="90%" />
+<br><em><b>Figure 2: Structured Course Outline Generation</b></em><br><br>
+
+<img src="./screenshots/Lesson_Page.png" alt="Rich Lesson Rendering" width="90%" />
+<br><em><b>Figure 3: Rich Lesson Rendering (Markdown, Syntax Highlighting, TTS)</b></em><br><br>
+
+<img src="./screenshots/Video_Integration.png" alt="Dynamic Video Integration" width="90%" />
+<br><em><b>Figure 4: Dynamic Seamless YouTube Integrations</b></em><br><br>
+
+<img src="./screenshots/MCQs_Explanation.png" alt="Interactive MCQs Explanation" width="90%" />
+<br><em><b>Figure 5: On-the-fly MCQ and Quiz Generation</b></em><br><br>
+
+</div>
 
 ---
 
@@ -53,6 +60,47 @@
 - **AI Integration**: Google Gen AI SDK (`@google/genai`)
 - **Media & Audio**: Google TTS API (`google-tts-api`), YouTube Data API
 - **Security**: `express-jwt`, `jwks-rsa`, `express-rate-limit`, `cors`
+
+---
+
+## 📂 Complete Project Structure
+
+```text
+Text-to-Learn/
+├── backend/
+│   ├── controllers/      
+│   │   └── courseController.js       # Core business logic for course CRUD and LLM pipeline
+│   ├── middleware/       
+│   │   └── auth.js                   # JWT Validation and rate-limit logic
+│   ├── models/           
+│   │   ├── Course.js                 # Course schema with deeply nested sub-documents
+│   │   ├── Lesson.js                 # Lesson content schema
+│   │   └── Module.js                 # Module breakdown schema
+│   ├── routes/           
+│   │   └── courseRoutes.js           # RESTful endpoint definitions
+│   ├── services/         
+│   │   ├── geminiService.js          # Google Gemini LLM API abstraction layer
+│   │   └── youtubeService.js         # YouTube Data API abstraction layer
+│   ├── server.js                     # Express setup, middleware injection, DB connection
+│   └── package.json
+└── frontend/
+    ├── public/
+    ├── src/
+    │   ├── components/   
+    │   │   ├── blocks/               # Modular UI blocks (e.g. MCQ rendering block)
+    │   │   ├── LessonRenderer.jsx    # React Markdown logic parser
+    │   │   ├── PromptForm.jsx        # Landing page prompt component
+    │   │   └── SidebarNavigation.jsx # Application-wide navigation skeleton
+    │   ├── pages/        
+    │   │   ├── CoursePage.jsx        # Course outline overview dashboard
+    │   │   ├── Home.jsx              # Application landing layout
+    │   │   └── LessonView.jsx        # Heavy data-fetching layout for lesson interaction
+    │   ├── App.jsx                   # React Router DOM context wrapper
+    │   └── main.jsx                  # Auth0 Provider and DOM mounting
+    ├── index.html
+    ├── vite.config.js
+    └── package.json
+```
 
 ---
 
@@ -130,33 +178,6 @@ npm run dev
 3. 📚 **Explore Lessons**: The AI will generate a structured module list. Click on any module/lesson to render the detailed Markdown content alongside curated YouTube videos and MCQs.
 4. 🎧 **Listen to the Lesson**: In the Lesson View, select your preferred language (Hinglish/Hindi/Tamil) from the dropdown and hit **Play** to hear the TTS reader.
 5. 📥 **Download as PDF**: Click the **Export** button in the top right of the lesson header to beautifully convert and save your lesson visually for offline usage.
-
----
-
-## 📂 Project Structure
-
-```text
-Text-to-Learn/
-├── backend/
-│   ├── controllers/      # Route logic (courseController, etc.)
-│   ├── middleware/       # Auth validation (JWT), Rate limiting, Error Handling
-│   ├── models/           # Mongoose schemas (Course, Lesson, User)
-│   ├── routes/           # Express API routes
-│   ├── services/         # Gemini AI, YouTube, & TTS logic
-│   ├── server.js         # Backend entry point
-│   └── package.json
-└── frontend/
-    ├── public/
-    ├── src/
-    │   ├── components/   # Reusable UI (Sidebar, auth modals, loaders)
-    │   ├── pages/        # Main views (PromptForm, LessonView)
-    │   ├── utils/        # Axios interceptors, helper functions
-    │   ├── App.jsx       # Auth0 wrapping & Router
-    │   ├── main.jsx      # React entry point
-    │   └── index.css     # Tailwind directives & base styles
-    ├── vite.config.js
-    └── package.json
-```
 
 ---
 
