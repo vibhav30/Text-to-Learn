@@ -6,14 +6,18 @@
 
 ## 📸 Sneak Peek
 
-*(Add your beautiful screenshots into the `ss` folder!)*
+<p align="center">
+  <img src="./screenshots/Home_Page.png" alt="Home Page Dashboard" width="32%" />
+  &nbsp;
+  <img src="./screenshots/Course_Page.png" alt="Course Outline Generation" width="32%" />
+  &nbsp;
+  <img src="./screenshots/Lesson_Page.png" alt="Rich Lesson Rendering" width="32%" />
+</p>
 
 <p align="center">
-  <img src="./ss/dashboard.png" alt="Generation Dashboard" width="32%" />
+  <img src="./screenshots/Video_Integration.png" alt="Dynamic Video Integration" width="48%" />
   &nbsp;
-  <img src="./ss/lesson-view.png" alt="Rich Lesson Rendering" width="32%" />
-  &nbsp;
-  <img src="./ss/auth-modal.png" alt="Secure Auth0 Login" width="32%" />
+  <img src="./screenshots/MCQs_Explanation.png" alt="Interactive MCQs Explanation" width="48%" />
 </p>
 
 ---
