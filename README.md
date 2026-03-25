@@ -1,153 +1,168 @@
-<div align="center">
-  <h1>🚀 Text-to-Learn</h1>
-  <p><strong>Transform any topic into a highly structured, interactive learning course in seconds.</strong></p>
-  
-  <p>
-    <!-- Add your deployed link here -->
-    <a href="https://your-deployed-live-link.vercel.app"><img src="https://img.shields.io/badge/Live_Demo-Available-success?style=for-the-badge&logo=vercel" alt="Live Demo" /></a>
-    <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
-    <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" alt="Node JS" />
-    <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
-  </p>
-</div>
+# 🚀 Text-to-Learn (AI Course Generator)
 
-<br />
-
-**Created by: Vibhav Gupta**
-
-**Text-to-Learn** is a full-stack, AI-powered educational platform. By leveraging cutting-edge Artificial Intelligence, the application empowers users to generate modular courses, dynamic lessons, interactive MCQs, multilingual text-to-speech audio, and even relevant YouTube video integrations instantly!
+**Text-to-Learn** is an innovative, full-stack AI platform that transforms simple text prompts into highly structured, personalized courses and detailed lessons. Built with a modern React frontend and a robust Node.js backend, it leverages Google's Gemini AI to generate educational content on demand.
 
 ---
 
-## 📸 Sneak Peek
+## 📸 Screenshots
 
-*(Add your screenshots here before pushing to GitHub! Examples:)*
+*(Add your screenshots into the `ss` folder!)*
 
-<div align="center">
-  <!-- Replace with actual screenshot paths. You can drag and drop images into your GitHub repo and paste the links here -->
-  <img src="https://via.placeholder.com/600x350.png?text=Dashboard+Screenshot" width="48%" alt="Course Dashboard" />
-  <img src="https://via.placeholder.com/600x350.png?text=Interactive+Lesson+Screenshot" width="48%" alt="Interactive Lesson View" />
-</div>
+![Course Generation Dashboard](./ss/dashboard.png)
+*Figure 1: The main dashboard where users enter topics to generate courses.*
 
----
+![Interactive Lesson View](./ss/lesson-view.png)
+*Figure 2: Rich lesson rendering with Text-to-Speech and PDF Export capabilities.*
 
-## ✨ Key Features
-
-- **🧠 AI Course Generation**: Input any topic, and the system intelligently structures a complete course with modules and individual lessons (powered by Google Gemini 2.5).
-- **🗣️ Multilingual Audio Generation (TTS)**: Listen to generated lessons translated on-the-fly into 20+ regional and global languages (e.g., Hinglish, Hindi, Spanish, French, Tamil) using seamless Text-to-Speech playback.
-- **� Progress Tracking**: Keep track of your learning journey with interactive course progress bars and individual lesson completion toggles.
-- **�🔐 Secure Authentication**: Robust user authentication and session management powered by **Auth0**.
-- **🎥 YouTube Integration**: Lessons automatically embed highly specific YouTube video tutorials to supplement the AI-generated text.
-- **📄 PDF Export**: Download beautifully formatted PDF versions of any lesson directly to your device for offline reading.
-- **🛡️ Production-Ready Security**: Backend secured with `helmet` for HTTP headers, strict `cors` configurations, `express-rate-limit` for DDoS/spam protection, and sanitized error handling to prevent stack trace leaks.
+![Auth0 Secure Login](./ss/auth-modal.png)
+*Figure 3: Custom secure authentication flow powered by Auth0.*
 
 ---
 
-## 🚀 Future Roadmap & Enhancements
+## ✨ Key Features & Technical Achievements
 
-We are continuously planning to evolve the platform. Upcoming features include:
-- **🔗 Shareable Courses**: Generate public links to share your custom courses with friends, students, or the public.
-- **📝 Spaced Repetition Flashcards**: Automatically convert lesson summaries into flashcards to enhance long-term memory retention.
-- **🤖 Interactive AI Tutor**: A chatbot integrated into each lesson to answer specific clarifying questions.
-
----
-
-## ⚡ Engineering Challenges Overcome
-
-Building this platform involved solving several complex engineering hurdles to ensure a highly scalable and seamless User Experience:
-1. **Handling Complex AI JSON Data**: Instructing the Gemini API to consistently return large, heavily structured nested JSON arrays (Modules > Lessons > Content Blocks) and parsing them safely without crashing the backend or returning malformed data to the client.
-2. **Audio Buffer Management**: Converting translated multilingual text into base64 audio streams using Google TTS, and safely managing the Audio instance in the React component lifecycle (allowing play, pause, and rapid language swapping without memory leaks or overlapping audio tracks).
-3. **Cross-Origin Security & Rate Limiting**: Correctly configuring the Vite frontend to communicate securely with the Express backend, enforcing strict domain-whitelisting (CORS), and setting up request limits to prevent abuse of the expensive AI text-generation quotas.
+- **Full-Stack AI Pipeline**: Developed a full-stack AI course creation platform that generates structured learning modules and lessons from user-provided prompts using **Google Gemini LLM**.
+- **Multi-Stage Prompt Engineering**: Orchestrated a robust AI prompt engineering pipeline to sequentially generate structured course outlines, followed by detailed lesson content, ensuring logical progression and comprehensive subject coverage.
+- **Rich Lesson Rendering**: Implemented a dynamic UI rendering system to parse AI-generated JSON and markdown content, accurately displaying headings, paragraphs, and syntax-highlighted code blocks for an engaging learning experience.
+- **Multilingual Text-to-Speech (TTS)**: Integrated dynamic TTS support, enabling Hinglish, Pure Hindi, and Tamil lesson narration via Google TTS APIs to drastically improve accessibility.
+- **High-Fidelity PDF Export**: Designed and implemented PDF lesson export functionality using `react-to-print`, allowing users to download and access visually accurate, heavily formatted lessons offline.
+- **Enterprise-Grade Security**: Secured the application with **Auth0**, providing authenticated access to personalized courses. Implemented custom Express middleware including `express-jwt` and JWKS for robust API route protection, rate-limiting, and centralized error handling.
+- **Scalable RESTful Backend**: Designed a scalable REST API using Node.js and Express to manage CRUD operations for courses, modules, and lessons. 
+- **Complex Data Modeling**: Modeled hierarchical data relationships (Course ➔ Module ➔ Lesson) within MongoDB using **Mongoose** schemas, enabling highly efficient storage and data retrieval tied to individual user accounts.
+- **Modern UI Architecture**: Utilized React (Vite) and **Tailwind CSS** to build a clean, responsive, glassmorphic UI with micro-animations, ensuring a highly polished user experience.
+- **Clean Codebase**: Maintained a highly modular and extensible codebase featuring centralized Axios interceptors, reusable UI components, and separated backend service layers.
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Technology Stack
 
-**Frontend**: React (Vite) | Tailwind CSS | Auth0 | Axios | React Router  
-**Backend**: Node.js | Express.js | MongoDB & Mongoose  
-**External Services**: Google Generative AI (Gemini) | Google TTS API | YouTube Data API v3  
-**Security**: Helmet | express-rate-limit | CORS  
+### **Frontend**
+- **Framework**: React 18, Vite
+- **Styling**: Tailwind CSS
+- **Routing**: React Router DOM
+- **Authentication**: Auth0 React SDK (`@auth0/auth0-react`)
+- **HTTP Client**: Axios
+- **Utilities**: React-to-Print
 
----
-
-## ⚙️ Environment Variables Setup
-
-Templates `frontend/.env.template` and `backend/.env.template` have been provided.
-
-**Backend (`/backend/.env`)**
-```env
-PORT=5000
-MONGO_URI=your_mongodb_connection_string_here
-GEMINI_API_KEY=your_gemini_api_key_here
-YOUTUBE_API_KEY=your_youtube_api_key_here
-AUTH0_DOMAIN=your_auth0_domain_here
-AUTH0_AUDIENCE=your_auth0_audience_here
-CLIENT_URL=http://localhost:5173  # (Production: e.g. https://your-frontend.vercel.app)
-```
-
-**Frontend (`/frontend/.env`)**
-```env
-VITE_AUTH0_DOMAIN=your_auth0_domain_here
-VITE_AUTH0_CLIENT_ID=your_auth0_client_id_here
-VITE_API_BASE_URL=http://localhost:5000  # (Production: e.g. https://your-backend.onrender.com)
-```
+### **Backend**
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Database**: MongoDB (Mongoose)
+- **AI Integration**: Google Gen AI SDK (`@google/genai`)
+- **Audio Generation**: Google TTS API (`google-tts-api`)
+- **Security**: `express-jwt`, `jwks-rsa`, `express-rate-limit`, `cors`
 
 ---
 
-## � Getting Started (Local Development)
+## 📋 Prerequisites
 
-### 1. Clone the repository
+Ensure you have the following installed on your machine:
+- **Node.js** (v18.0 or higher)
+- **MongoDB** (Local instance or MongoDB Atlas cluster)
+- **Auth0 Account** (To configure Domain, Client ID, and Audience API)
+- **Google Gemini API Key** (Generated via Google AI Studio)
+
+---
+
+## 🚀 Installation & Setup
+
+### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/text-to-learn.git
+git clone https://github.com/your-username/text-to-learn.git
 cd text-to-learn
 ```
 
-### 2. Setup Backend
+### 2. Backend Setup
+Navigate to the backend directory and install dependencies:
 ```bash
 cd backend
 npm install
-# Populate your .env file
-npm run dev
 ```
 
-### 3. Setup Frontend
-Open a new terminal window:
+Create a `.env` file in the `/backend` directory:
+```env
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+GEMINI_API_KEY=your_google_gemini_api_key
+
+# Auth0 Backend Verification
+AUTH0_ISSUER_BASE_URL=https://your-auth0-domain.us.auth0.com/
+AUTH0_AUDIENCE=your_auth0_api_audience
+```
+
+Start the backend development server:
+```bash
+npx nodemon server.js
+```
+
+### 3. Frontend Setup
+Open a new terminal, navigate to the frontend directory, and install dependencies:
 ```bash
 cd frontend
 npm install
-# Populate your .env file
+```
+
+Create a `.env` file in the `/frontend` directory:
+```env
+VITE_API_BASE_URL=http://localhost:5000
+
+# Auth0 Frontend Config
+VITE_AUTH0_DOMAIN=your-auth0-domain.us.auth0.com
+VITE_AUTH0_CLIENT_ID=your_auth0_client_id
+VITE_AUTH0_AUDIENCE=your_auth0_api_audience
+```
+
+Start the Vite development server:
+```bash
 npm run dev
 ```
 
-The frontend will run on `http://localhost:5173` and the backend on `http://localhost:5000`.
+---
+
+## 💻 Usage Guide
+
+1. **Sign Up / Log In**: Click the Login button in the sidebar. You will be authenticated securely via Auth0. Unauthenticated users will be met with a custom modal restricting course generation.
+2. **Generate a Course**: On the main dashboard, type any topic you wish to learn about and submit. The multi-stage AI pipeline will initiate.
+3. **Explore Lessons**: The AI will generate a structured module list. Click on any module/lesson to generate and render the detailed Markdown lesson content.
+4. **Listen to the Lesson**: In the Lesson View, select your preferred language (Hinglish/Hindi/Tamil) from the dropdown and hit **Play** to hear the TTS reader.
+5. **Download as PDF**: Click the **Export** button in the top right of the lesson header to save your lesson visually for offline usage.
 
 ---
 
-## 🗄️ Project Structure
+## 📂 Project Structure
 
 ```text
-📁 text-to-learn
-├── 📁 backend
-│   ├── 📁 controllers    (Express route handlers)
-│   ├── 📁 models         (Mongoose schemas)
-│   ├── 📁 routes         (API route definitions)
-│   ├── 📁 services       (External API integrations: Gemini, YouTube)
-│   └── server.js         (App entry point & security configurations)
-│
-└── 📁 frontend
-    ├── 📁 public
-    ├── 📁 src
-    │   ├── 📁 components (Reusable UI blocks)
-    │   ├── 📁 pages      (Main route views: CoursePage, LessonView, etc.)
-    │   ├── main.jsx      (React entry point & Auth0 wrapper)
-    │   └── App.jsx       (Routing configuration)
-    └── vite.config.js
+Text-to-Learn/
+├── backend/
+│   ├── controllers/      # Route logic (courseController, etc.)
+│   ├── middleware/       # Auth validation (JWT), Rate limiting, Error Handling
+│   ├── models/           # Mongoose schemas (Course, Lesson, User)
+│   ├── routes/           # Express API routes
+│   ├── services/         # Gemini AI & TTS logic (geminiService.js)
+│   ├── server.js         # Backend entry point
+│   └── package.json
+└── frontend/
+    ├── public/
+    ├── src/
+    │   ├── components/   # Reusable UI (Sidebar, auth modals, loaders)
+    │   ├── pages/        # Main views (PromptForm, LessonView)
+    │   ├── utils/        # Axios interceptors, helper functions
+    │   ├── App.jsx       # Auth0 wrapping & Router
+    │   ├── main.jsx      # React entry point
+    │   └── index.css     # Tailwind directives & base styles
+    ├── vite.config.js
+    └── package.json
 ```
 
 ---
 
-<div align="center">
-  <i>Developed with ❤️ by Vibhav Gupta</i><br><br>
-  <!-- Replace the hashtags with your actual profile links -->
-  <a href="#">GitHub</a> • <a href="#">LinkedIn</a> • <a href="#">Portfolio</a>
-</div>
+## 🗺️ Future Enhancements
+
+- [ ] **Quiz Generation**: Automatically generate end-of-lesson multiple-choice quizzes to test knowledge retention.
+- [ ] **Dark Mode**: System-aware dark/light theme toggling for enhanced accessibility and UI polish.
+- [ ] **Progress Tracking**: Visual indicators (completion bars) indicating the percentage of course completion.
+- [ ] **Social Sharing**: Share generated courses and content trees via public, read-only links.
+
+---
+
+👨‍💻 **Developed by [Vibhav Gupta](https://www.linkedin.com/in/vibhavgupta30/)**
