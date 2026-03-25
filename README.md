@@ -33,7 +33,7 @@ Built with a robust React frontend and an Express-powered scalable backend, it s
 
 - **🧠 Full-Stack AI Pipeline**: Instantly generates well-structured learning modules and detailed markdown lessons from user-provided prompts using **Google Gemini LLM**.
 - **🎥 Dynamic YouTube Integrations**: Automatically fetches and embeds hyper-relevant YouTube videos directly into the generated coursework to supplement text-based learning visually.
-- **🗣️ Multilingual Text-to-Speech (TTS)**: Integrated dynamic TTS support, enabling automatic Hinglish, Pure Hindi, and Tamil lesson narration via Google TTS APIs for unmatched accessibility.
+- **🗣️ Full-Lesson Translation & Multilingual TTS**: Completely translate entire generated lessons on the fly! Features integrated dynamic Text-to-Speech support, enabling automatic Hinglish, Pure Hindi, and Tamil text translation and audio narration via Google APIs for unmatched accessibility.
 - **📄 High-Fidelity PDF Export**: Designed PDF lesson export functionality using `react-to-print`, allowing users to download visually accurate, heavily formatted modular lessons entirely offline.
 - **📊 Integrated Quiz Generation**: Rapidly generates end-of-lesson multiple-choice questions (MCQs) to rigorously test knowledge retention and user engagement.
 - **📈 Progress Tracking**: Built-in visual indicators and completion tracking to monitor individual course progression effortlessly.
@@ -161,7 +161,6 @@ VITE_API_BASE_URL=http://localhost:5000
 # Auth0 Frontend Config
 VITE_AUTH0_DOMAIN=your-auth0-domain.us.auth0.com
 VITE_AUTH0_CLIENT_ID=your_auth0_client_id
-VITE_AUTH0_AUDIENCE=your_auth0_api_audience
 ```
 
 Start the Vite development server:
