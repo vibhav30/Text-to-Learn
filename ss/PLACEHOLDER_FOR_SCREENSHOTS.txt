@@ -1,1 +1,0 @@
-Place your screenshots in this folder and name them dashboard.png, lesson-view.png, and auth-modal.png to match the README.
